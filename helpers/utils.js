@@ -19,6 +19,10 @@ function isClosingBracket(character) {
     return character === ')'
 }
 
+function isOpenBracket(character) {
+    return character === '('
+}
+
 function isNumber(value) {
     return !isNaN(value)
 }

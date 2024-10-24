@@ -35,7 +35,7 @@ window.addEventListener("keydown", async (event) => {
     }
 });
 
-function inputCharacter(character) {
+function inputCharacter(character, isNegative = false) {
     //check if the added character is a number
     if (isNumber(character) && isNumberAllowed(lastCharacterAdded)) {
         if (displayedText === '0' && character === '0') return;
@@ -46,6 +46,14 @@ function inputCharacter(character) {
             displayedText = ''
             resultDisplay.innerHTML = '0'
             equalIsClicked = false
+        }
+        if (isNegative) {
+            displayedText += '(' + parseFloat(character) + ')'
+            updateDisplay()
+            return;
+        }
+        if(lastCharacterAdded === '0' && isNumber(character) && !isNumber(displayedText[displayedText.length - 2])) {
+            eraseLastCharacter()
         }
         //using parseFloat as we will use this function to also add sin(x), tan(x) etc which might be floats.
         displayedText += parseFloat(character);
@@ -73,7 +81,7 @@ function inputCharacter(character) {
 }
 
 function isOperatorAllowed(character) {
-    return displayedText.length > 0 && (isNumber(lastCharacterAdded) || isClosingBracket(lastCharacterAdded))
+    return displayedText.length > 0 && (isNumber(lastCharacterAdded) || isClosingBracket(lastCharacterAdded)) || isOpenBracket(lastCharacterAdded) && character === '-'
         || equalIsClicked && isOperator(character)
 }
 
@@ -155,11 +163,13 @@ function changeTheme() {
 
 
 function calculatePercentage() {
+    console.log(getLastNumberAdded(displayedText))
     if (getLastNumberAdded(displayedText)) {
+        console.log('here we are:', getLastNumberAdded(displayedText));
         let lastNumber = getLastNumberAdded(displayedText);
         let percentage = (lastNumber / 100).toString()
         displayedText = displayedText.replace(new RegExp(lastNumber + '$'), '')
-        inputCharacter(percentage)
+        appendValue(percentage)
     }
 }
 
@@ -168,17 +178,31 @@ function calculateSquarePower() {
         let lastNumber = getLastNumberAdded(displayedText);
         let power = lastNumber * lastNumber
         displayedText = displayedText.replace(new RegExp(lastNumber + '$'), '')
-        inputCharacter(power)
+        appendValue(power)
     }
 }
 
 function calculateTrigExpression(expression) {
+    calcLastNo(displayedText)
     if (getLastNumberAdded(displayedText)) {
         let lastNumber = getLastNumberAdded(displayedText);
         let result = Math[expression](parseFloat(convertBetweenRadAndDeg(lastNumber, degreeAngle))).toFixed(10)
         displayedText = displayedText.replace(new RegExp(lastNumber + '$'), '')
-        inputCharacter(result)
+        appendValue(result)
     }
+}
+
+function calcLastNo(displayValue) {
+    let match = displayValue.match(/-?\d+(\.\d+)?$/);
+    console.log(match)// Regex to match the last number, including negatives
+    return match ? parseFloat(match[0]) : 0;
+}
+
+function appendValue(result) {
+    if (result >= 0)
+        inputCharacter(result.toString())
+    else if (result < 0)
+        inputCharacter(result.toString(), true)
 }
 
 function calculateInDegree() {
@@ -205,7 +229,7 @@ function advancedOperations(operation) {
         let lastNumber = getLastNumberAdded(displayedText);
         let result = Math[operation](parseFloat(lastNumber)).toFixed(10)
         displayedText = displayedText.replace(new RegExp(lastNumber + '$'), '')
-        inputCharacter(result.toString())
+        appendValue(result.toString())
     }
 }
 
