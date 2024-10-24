@@ -12,7 +12,7 @@ This is a simple calculator app programmed in JavaScript, HTML and CSS only. It 
 
 To run this calculator locally, follow those steps:
 
-Clone the repository to your local machine: git clone ...
+Clone the repository to your local machine: git clone git@github.com:paolatili/calculator.git
 Open the project folder and lauch calculator.html with your web browser.
 
 Use the interface to input and perform calculations.
