@@ -24,3 +24,7 @@ This calculator allows the following features:
 1. Basic arithmetic operations (addition, subtraction, multiplication, division, percentage).
 2. Advanced scientific functions (trigonometric, logarithmic).
 3. Allows adding brackets to calculate larger expressions.
+
+## Demo
+
+Check the live demo here: https://paolatili.github.io/calculator
