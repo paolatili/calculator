@@ -52,7 +52,7 @@ function inputCharacter(character, isNegative = false) {
             updateDisplay()
             return;
         }
-        if(lastCharacterAdded === '0' && isNumber(character) && !isNumber(displayedText[displayedText.length - 2])) {
+        if (lastCharacterAdded === '0' && isNumber(character) && !isNumber(displayedText[displayedText.length - 2])) {
             eraseLastCharacter()
         }
         //using parseFloat as we will use this function to also add sin(x), tan(x) etc which might be floats.
@@ -163,7 +163,6 @@ function changeTheme() {
 
 
 function calculatePercentage() {
-    console.log(getLastNumberAdded(displayedText))
     if (getLastNumberAdded(displayedText)) {
         console.log('here we are:', getLastNumberAdded(displayedText));
         let lastNumber = getLastNumberAdded(displayedText);
