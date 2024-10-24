@@ -1,7 +1,7 @@
 ## Description
 
 
-This is a simple calculator app programmed in JavaScript, HTML and CSS only.
+This is a simple calculator app programmed in JavaScript, HTML and CSS only. It is responsive and allows dark and light mode features.
 
 ## Usage
 
