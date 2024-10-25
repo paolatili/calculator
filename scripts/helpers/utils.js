@@ -51,6 +51,18 @@ function findLastCharacter(value) {
 
 }
 
+function appendValue(result) {
+    if(!Number.isInteger(result)) addedPointToNumber = 1
+
+    if (result >= 0) inputCharacter(result.toString())
+
+    else if (result < 0) {
+        inputCharacter('(')
+        inputCharacter(result.toString())
+        inputCharacter(')')
+    }
+}
+
 function getAllNumbersAdded(displayedText) {
     return removeSpanTags(displayedText).split(/[-+*/=()]/);
 }

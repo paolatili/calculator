@@ -111,7 +111,7 @@ function calcResult() {
     displayedText = parseFloat(res.toFixed(10)).toString();
     resultDisplay.innerHTML = parseFloat(res.toFixed(10)).toString();
 
-    addEffectToDisplay()
+    addEffectToDisplay(resultDisplay)
 }
 
 function eraseAll() {
@@ -129,7 +129,7 @@ function eraseLastCharacter() {
         displayedText = displayedTextBeforeEqual
         updateDisplay()
         return
-    } else if (displayedText !== '') {
+    } else if (displayedText !== '' && displayedText !== 0 && displayedText !== '0') {
         if (displayedText.endsWith('</span>'))
             displayedText = removeSpanTags(displayedText, true);
         if (displayedText.endsWith('.')) addedPointToNumber = false
@@ -138,7 +138,7 @@ function eraseLastCharacter() {
 
         displayedText = displayedText.slice(0, displayedText.length - 1);
         lastCharacterAdded = findLastCharacter(displayedText);
-    } else displayedText = ''
+    } else displayedText = '0'
 
     updateDisplay()
 
@@ -186,13 +186,6 @@ function calculateTrigExpression(expression) {
         displayedText = displayedText.replace(new RegExp(lastNumber + '$'), '')
         appendValue(result)
     }
-}
-
-function appendValue(result) {
-    if (result >= 0)
-        inputCharacter(result.toString())
-    else if (result < 0)
-        inputCharacter(result.toString(), true)
 }
 
 function calculateInDegree() {
