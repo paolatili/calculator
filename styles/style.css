@@ -307,6 +307,6 @@ sub {
 }
 
 .fade-text {
-   animation: fade 0.8s ease-in-out;
+    animation: fade 0.8s ease-in-out;
     color: rgba(162, 197, 255, 0.62)
 }

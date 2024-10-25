@@ -38,7 +38,6 @@ window.addEventListener("keydown", async (event) => {
 function inputCharacter(character, isNegative = false) {
     //check if the added character is a number
     if (isNumber(character) && isNumberAllowed(lastCharacterAdded)) {
-       // displayedText = removeSpanTags(displayedText)
         if (displayedText === '0' && character === '0') return;
         if (displayedText === '0') {
             displayedText = ''
@@ -66,7 +65,7 @@ function inputCharacter(character, isNegative = false) {
         addedPointToNumber = 0
         lastCharacterAdded = character;
         //adding the operation
-    } else if (isPoint(character) && isPointAllowed(displayedText.length , lastCharacterAdded)) {
+    } else if (isPoint(character) && isPointAllowed(displayedText.length, lastCharacterAdded)) {
         //handle cases when multiple . are added to the floating point number - so for example 9.9.8 is not allowed
         if (addedPointToNumber === 1) return
         displayedText += '.';
@@ -146,14 +145,14 @@ function eraseLastCharacter() {
 
 function eraseZero() {
     let displayedValue = removeSpanTags(displayedText);
-    if(displayedValue.endsWith('0')) {
+    if (displayedValue.endsWith('0')) {
         let elementsBeforeZero = displayedValue.slice(0, -1);
-        if(elementsBeforeZero.endsWith('.')
+        if (elementsBeforeZero.endsWith('.')
             || elementsBeforeZero.endsWith(')')
             || elementsBeforeZero.endsWith('(')
             || isOperator(elementsBeforeZero.slice(-1))) return
 
-        displayedText = displayedText.slice(0, - 1)
+        displayedText = displayedText.slice(0, -1)
     }
 }
 

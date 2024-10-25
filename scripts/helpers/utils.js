@@ -52,7 +52,7 @@ function findLastCharacter(value) {
 }
 
 function appendValue(result) {
-    if(!Number.isInteger(result)) addedPointToNumber = 1
+    if (!Number.isInteger(result)) addedPointToNumber = 1
 
     if (result >= 0) inputCharacter(result.toString())
 
