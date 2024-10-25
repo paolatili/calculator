@@ -135,3 +135,10 @@ function switchSavedModePreference() {
     const darkModeSavedPreferences = JSON.parse(window.localStorage.getItem('darkMode') ?? 'true');
     window.localStorage.setItem('darkMode', JSON.stringify({value: !darkModeSavedPreferences.value}));
 }
+
+function addEffectToDisplay(resultDisplay) {
+    resultDisplay.classList.add('fade-text')
+    setTimeout(() => {
+        resultDisplay.classList.remove('fade-text');
+    }, 30);
+}

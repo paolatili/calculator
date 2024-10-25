@@ -110,6 +110,8 @@ function calcResult() {
     displayedTextBeforeEqual = displayedText
     displayedText = parseFloat(res.toFixed(10)).toString();
     resultDisplay.innerHTML = parseFloat(res.toFixed(10)).toString();
+
+    addEffectToDisplay()
 }
 
 function eraseAll() {
@@ -221,7 +223,7 @@ function advancedOperations(operation) {
     }
 }
 
-function checkIfBracketAllowed(bracket, lastCharacterAdded) {
+function checkIfBracketAllowed(bracket) {
     if (bracket === '(')
         return operators.includes(lastCharacterAdded) || lastCharacterAdded === '(' || displayedText === '0'
     else if (bracket === ')')
