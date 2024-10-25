@@ -38,6 +38,7 @@ window.addEventListener("keydown", async (event) => {
 function inputCharacter(character, isNegative = false) {
     //check if the added character is a number
     if (isNumber(character) && isNumberAllowed(lastCharacterAdded)) {
+       // displayedText = removeSpanTags(displayedText)
         if (displayedText === '0' && character === '0') return;
         if (displayedText === '0') {
             displayedText = ''
@@ -53,19 +54,19 @@ function inputCharacter(character, isNegative = false) {
             return;
         }
         if (lastCharacterAdded === '0' && isNumber(character) && !isNumber(displayedText[displayedText.length - 2])) {
-            eraseLastCharacter()
+            eraseZero()
         }
         //using parseFloat as we will use this function to also add sin(x), tan(x) etc which might be floats.
         displayedText += parseFloat(character);
         lastCharacterAdded = character
         //adding the operator - checking if we already have added characters in the calculator
-    } else if (isOperator(character) && isOperatorAllowed(character)) {
+    } else if (isOperator(character) && isOperatorAllowed(character, lastCharacterAdded, equalIsClicked, displayedText)) {
         if (character === '-' && displayedText === '0') displayedText = '';
         displayedText += `<span class='sign'>${character}</span>`;
         addedPointToNumber = 0
         lastCharacterAdded = character;
         //adding the operation
-    } else if (isPoint(character) && isPointAllowed(character)) {
+    } else if (isPoint(character) && isPointAllowed(displayedText.length , lastCharacterAdded)) {
         //handle cases when multiple . are added to the floating point number - so for example 9.9.8 is not allowed
         if (addedPointToNumber === 1) return
         displayedText += '.';
@@ -79,17 +80,6 @@ function inputCharacter(character, isNegative = false) {
     }
     updateDisplay();
 }
-
-function isOperatorAllowed(character) {
-    return displayedText.length > 0 && (isNumber(lastCharacterAdded) || isClosingBracket(lastCharacterAdded)) || isOpenBracket(lastCharacterAdded) && character === '-'
-        || equalIsClicked && isOperator(character)
-}
-
-
-function isPointAllowed() {
-    return displayedText.length > 0 && isNumber(lastCharacterAdded)
-}
-
 
 function updateDisplay() {
     if (equalIsClicked) equalIsClicked = false
@@ -108,8 +98,13 @@ function calcResult() {
         showInvalidInputAlert()
         return
     }
+    try {
+        res = eval(res);
+    } catch (e) {
+        showAlert('Invalid characters added!')
+        return;
+    }
 
-    res = eval(res);
     if (res === undefined) res = 'error';
     equalIsClicked = true;
     displayedTextBeforeEqual = displayedText
@@ -147,13 +142,17 @@ function eraseLastCharacter() {
 
 }
 
-function findLastCharacter(value) {
-    if (value.endsWith('</span>')) {
-        //check if the last element after erasing is operator or bracket
-        value = removeSpanTags(value, true);
-        return value[value.length - 1];
-    } else return value[value.length - 1]; //in this case it's number or '.'
+function eraseZero() {
+    let displayedValue = removeSpanTags(displayedText);
+    if(displayedValue.endsWith('0')) {
+        let elementsBeforeZero = displayedValue.slice(0, -1);
+        if(elementsBeforeZero.endsWith('.')
+            || elementsBeforeZero.endsWith(')')
+            || elementsBeforeZero.endsWith('(')
+            || isOperator(elementsBeforeZero.slice(-1))) return
 
+        displayedText = displayedText.slice(0, - 1)
+    }
 }
 
 function changeTheme() {
@@ -161,40 +160,30 @@ function changeTheme() {
     toggleDarkMode(getDarkModePreferences())
 }
 
-
 function calculatePercentage() {
-    if (getLastNumberAdded(displayedText)) {
-        console.log('here we are:', getLastNumberAdded(displayedText));
-        let lastNumber = getLastNumberAdded(displayedText);
-        let percentage = (lastNumber / 100).toString()
-        displayedText = displayedText.replace(new RegExp(lastNumber + '$'), '')
-        appendValue(percentage)
-    }
+    updateLastNumber(num => num / 100);
 }
 
 function calculateSquarePower() {
-    if (getLastNumberAdded(displayedText)) {
-        let lastNumber = getLastNumberAdded(displayedText);
-        let power = lastNumber * lastNumber
-        displayedText = displayedText.replace(new RegExp(lastNumber + '$'), '')
-        appendValue(power)
+    updateLastNumber(num => num * num);
+}
+
+function updateLastNumber(operation) {
+    const lastNumber = getLastNumberAdded(displayedText);
+    if (lastNumber) {
+        const result = operation(lastNumber);
+        displayedText = displayedText.replace(new RegExp(lastNumber + '$'), '');
+        appendValue(result.toString());
     }
 }
 
 function calculateTrigExpression(expression) {
-    calcLastNo(displayedText)
     if (getLastNumberAdded(displayedText)) {
         let lastNumber = getLastNumberAdded(displayedText);
         let result = Math[expression](parseFloat(convertBetweenRadAndDeg(lastNumber, degreeAngle))).toFixed(10)
         displayedText = displayedText.replace(new RegExp(lastNumber + '$'), '')
         appendValue(result)
     }
-}
-
-function calcLastNo(displayValue) {
-    let match = displayValue.match(/-?\d+(\.\d+)?$/);
-    console.log(match)// Regex to match the last number, including negatives
-    return match ? parseFloat(match[0]) : 0;
 }
 
 function appendValue(result) {
@@ -232,7 +221,7 @@ function advancedOperations(operation) {
     }
 }
 
-function checkIfBracketAllowed(bracket) {
+function checkIfBracketAllowed(bracket, lastCharacterAdded) {
     if (bracket === '(')
         return operators.includes(lastCharacterAdded) || lastCharacterAdded === '(' || displayedText === '0'
     else if (bracket === ')')

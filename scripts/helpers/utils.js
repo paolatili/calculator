@@ -11,8 +11,18 @@ function isOperator(character) {
     return operators.includes(character)
 }
 
+function isOperatorAllowed(character, lastCharacterAdded, equalIsClicked, displayedText) {
+    return displayedText.length > 0 && (isNumber(lastCharacterAdded) || isClosingBracket(lastCharacterAdded))
+        || isOpenBracket(lastCharacterAdded) && character === '-'
+        || equalIsClicked && isOperator(character)
+}
+
 function isPoint(character) {
     return character === '.'
+}
+
+function isPointAllowed(displayedTextLength, lastCharacterAdded) {
+    return displayedTextLength > 0 && isNumber(lastCharacterAdded)
 }
 
 function isClosingBracket(character) {
@@ -30,6 +40,15 @@ function isNumber(value) {
 function checkIfLastIsOperator(value) {
     const lastChar = value[value.length - 1];
     return operators.includes(lastChar)
+}
+
+function findLastCharacter(value) {
+    if (value.endsWith('</span>')) {
+        //check if the last element after erasing is operator or bracket
+        value = removeSpanTags(value, true);
+        return value[value.length - 1];
+    } else return value[value.length - 1]; //in this case it's number or '.'
+
 }
 
 function getAllNumbersAdded(displayedText) {
