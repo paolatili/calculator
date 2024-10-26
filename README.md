@@ -11,7 +11,7 @@ This is a simple calculator app programmed in JavaScript, HTML and CSS only. It 
 ## Installation
 
 Clone or download the repository.
-* To clone the repository run git clone git@github.com:paolatili/calculator.git on terminal. (or check: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository 
+* To clone the repository run git clone git@github.com:paolatili/calculator.git on terminal. (or check: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
 * To download this repository click on <> Code and then “Download ZIP folder”. After downloading, unzip it.
 Open calculator.html in a web browser to start the app.
 
