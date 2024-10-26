@@ -17,6 +17,10 @@ function isOperatorAllowed(character, lastCharacterAdded, equalIsClicked, displa
         || equalIsClicked && isOperator(character)
 }
 
+function isOperationAllowed(lastCharacterAdded) {
+    return !isOperator(lastCharacterAdded) && !equalIsClicked
+}
+
 function isPoint(character) {
     return character === '.'
 }
@@ -31,6 +35,16 @@ function isClosingBracket(character) {
 
 function isOpenBracket(character) {
     return character === '('
+}
+
+function checkIfBracketAllowed(bracket, lastCharacterAdded, openBracket, displayedText) {
+    if (bracket === '(')
+        return operators.includes(lastCharacterAdded) || lastCharacterAdded === '(' || displayedText === '0'
+    else if (bracket === ')')
+        return (isNumber(lastCharacterAdded) && openBracket)
+            || (openBracket && lastCharacterAdded !== '(' && (isNumber(lastCharacterAdded)
+                || lastCharacterAdded === ')'))
+    return false
 }
 
 function isNumber(value) {
@@ -53,7 +67,6 @@ function findLastCharacter(value) {
 
 function appendValue(result) {
     if (!Number.isInteger(result)) addedPointToNumber = 1
-
     if (result >= 0) inputCharacter(result.toString())
 
     else if (result < 0) {
@@ -68,8 +81,12 @@ function getAllNumbersAdded(displayedText) {
 }
 
 function getLastNumberAdded(displayedText) {
-    let numbersArray = getAllNumbersAdded(displayedText);
-    return numbersArray[numbersArray.length - 1];
+    let numbersArray = []
+    if(displayedText !== 0) {
+        numbersArray = getAllNumbersAdded(displayedText);
+    } else
+        numbersArray = getAllNumbersAdded(resultDisplay.innerHTML);
+        return numbersArray[numbersArray.length - 1]
 }
 
 function isNumberAllowed(lastCharacterAdded) {
@@ -104,7 +121,7 @@ function showAlert(message) {
     setTimeout(() => {
         document.querySelector('.alert')?.classList.toggle('hidden', true); // Add the 'hidden' class back to hide the alert
     }, 1500);
-
+     //   equalIsClicked = false
 }
 
 function showInvalidInputAlert() {
