@@ -52,19 +52,20 @@ function isNumber(value) {
 }
 
 function checkIfLastIsOperator(value) {
-    const lastChar = value[value.length - 1];
+    const lastChar = value.slice(-1);
     return operators.includes(lastChar)
 }
 
 function findLastCharacter(value) {
+    //check if the last element is operator or bracket (it is surrounded by span tag)
     if (value.endsWith('</span>')) {
-        //check if the last element after erasing is operator or bracket
         value = removeSpanTags(value, true);
-        return value[value.length - 1];
-    } else return value[value.length - 1]; //in this case it's number or '.'
+        return value.slice(-1);
+    } else return value.slice(-1); //in this case it's number or '.'
 
 }
 
+// input value to display based on sign - if negative, add brackets
 function appendValue(result) {
     if (!Number.isInteger(result)) addedPointToNumber = 1
     if (result >= 0) inputCharacter(result.toString())
@@ -77,16 +78,18 @@ function appendValue(result) {
 }
 
 function getAllNumbersAdded(displayedText) {
+    //removing operators from displayed text
     return removeSpanTags(displayedText).split(/[-+*/=()]/);
 }
 
 function getLastNumberAdded(displayedText) {
     let numbersArray = []
-    if(displayedText !== 0) {
+    if (displayedText !== '0' || displayedText !== 0)
         numbersArray = getAllNumbersAdded(displayedText);
-    } else
+    else
+        // perform action on result, if equal is clicked
         numbersArray = getAllNumbersAdded(resultDisplay.innerHTML);
-        return numbersArray[numbersArray.length - 1]
+    return numbersArray[numbersArray.length - 1]
 }
 
 function isNumberAllowed(lastCharacterAdded) {
@@ -100,6 +103,7 @@ function removeSpanTags(inputString, removeLastOnly = false) {
     //select all spans with operators and put them into an array
     const operatorsSpan = Array.from(tempElement.getElementsByTagName('span'));
 
+    //remove only last
     if (removeLastOnly) {
         const lastSpan = operatorsSpan[operatorsSpan.length - 1]
         const spanContent = lastSpan.innerHTML
@@ -119,9 +123,10 @@ function showAlert(message) {
     alertItem?.classList.toggle('hidden', false);
     alertItem.querySelector('.alert-text').innerHTML = message
     setTimeout(() => {
-        document.querySelector('.alert')?.classList.toggle('hidden', true); // Add the 'hidden' class back to hide the alert
+        // Add the 'hidden' class back to hide the alert
+        document.querySelector('.alert')?.classList.toggle('hidden', true);
     }, 1500);
-     //   equalIsClicked = false
+    //   equalIsClicked = false
 }
 
 function showInvalidInputAlert() {
