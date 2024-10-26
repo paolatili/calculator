@@ -8,14 +8,18 @@ This is a simple calculator app programmed in JavaScript, HTML and CSS only. It 
 </p>
 
 
-## Usage
+## Installation
 
-To run this calculator locally, follow those steps:
+Clone or download the repository.
+* To clone the repository check: How to clone a repository in GitHub
+* To download this repository click on <> Code and then “Download ZIP folder”. After downloading, unzip it.
+Open calculator.html in a web browser to start the app.
 
-Clone the repository to your local machine: git clone git@github.com:paolatili/calculator.git
-Open the project folder and lauch calculator.html with your web browser.
+Prerequisites: Basic knowledge of HTML, CSS, and JavaScript.
+GitHub link: https://github.com/paolatili/calculator
 
 Use the interface to input and perform calculations.
+Check live demo here: https://paolatili.github.io/calculator
 
 ## Features
 
