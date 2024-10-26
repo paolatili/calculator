@@ -140,6 +140,7 @@ body.darkActive .calculator {
     color: #109DFF;
 }
 
+/*customizes the scrollbar appearance for display */
 .calculator .display .operation::-webkit-scrollbar {
     height: 4px;
 }
@@ -161,6 +162,7 @@ body.darkActive .calculator {
     background: rgba(218, 240, 255, 0.7);
 }
 
+/*customizes the scrollbar appearance for result */
 .calculator .display .result::-webkit-scrollbar {
     height: 6px;
 }
@@ -246,6 +248,7 @@ sub {
     margin-left: -80px;
 }
 
+/* adopting sizes on different screens */
 @media (max-width: 768px) {
     .calculator .keyboard .button {
         height: 3.5rem;
