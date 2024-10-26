@@ -33,14 +33,17 @@
             <span id="rad" style="opacity: 1; margin-right: 3px; font-weight: 600"> RAD </span>
             | <span id="deg" style="opacity: 0.3; margin-left: 3px"> DEG </span>
         </button>
+        <!-- Calculator buttons -->
         <button class="button operator small ripple" onclick="calculateSquarePower()">x<sup>2</sup></button>
         <button class="button operator small ripple" onclick="calculatePercentage()">%</button>
-        <button class="button operator small ripple" onclick="advancedOperations('sqrt')">&#8730;</button>
+        <button class="button operator small ripple" onclick="advancedOperations('sqrt', 'Square Root')">&#8730;
+        </button>
 
         <button class="button operator small ripple" onclick="calculateTrigExpression('sin')">sin</button>
         <button class="button operator small ripple" onclick="calculateTrigExpression('cos')">cos</button>
         <button class="button operator small ripple" onclick="calculateTrigExpression('tan')">tan</button>
-        <button class="button operator small ripple" onclick="advancedOperations('log10')">log<sub>10</sub></button>
+        <button class="button operator small ripple" onclick="advancedOperations('log10', 'Logarithm')">log<sub>10</sub>
+        </button>
 
         <button class="button clean" onclick="eraseAll()">Ac</button>
         <button class="button clean" onclick="eraseLastCharacter()">C</button>
